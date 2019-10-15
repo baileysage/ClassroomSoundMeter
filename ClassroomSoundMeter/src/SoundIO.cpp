@@ -76,13 +76,13 @@ int SoundIO::checkMic(){
   return 1;
 }
 
-int SoundIO::playWarning(){
+void SoundIO::playWarning(){
   digitalWrite(WARN_OUT_PIN, LOW);
-  delay(50);
+  delay(200);
   digitalWrite(WARN_OUT_PIN, HIGH);
 }
 
-int SoundIO::playAlarm(){
+void SoundIO::playAlarm(){
   digitalWrite(ALARM_OUT_PIN, LOW);
   delay(50);
   digitalWrite(ALARM_OUT_PIN, HIGH);

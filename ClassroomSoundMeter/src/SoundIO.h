@@ -15,8 +15,8 @@ class SoundIO{
         SoundIO();
 	    virtual ~SoundIO();
         int checkMic();
-        int playWarning();
-        int playAlarm();
+        void playWarning();
+        void playAlarm();
     private: 
         float fscale( float originalMin, float originalMax, float newBegin, float
         newEnd, float inputValue, float curve);
