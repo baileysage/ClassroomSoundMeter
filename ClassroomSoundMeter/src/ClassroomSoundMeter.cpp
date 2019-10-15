@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "Microphone.h"
+#include "SoundIO.h"
 
 /*
 Heavily borrowed from Elegoo Super Starter Kit code
@@ -40,7 +40,7 @@ void setup() {
   pinMode(clockPin, OUTPUT);
   pinMode(dataPinRed, OUTPUT);
   pinMode(latchPinRed, OUTPUT);
-  Microphone microphone();
+  SoundIO soundController();
 }
  
 // display a number on the digital segment display
