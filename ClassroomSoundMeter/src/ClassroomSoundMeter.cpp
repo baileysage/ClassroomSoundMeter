@@ -40,7 +40,6 @@ void setup() {
   pinMode(clockPin, OUTPUT);
   pinMode(dataPinRed, OUTPUT);
   pinMode(latchPinRed, OUTPUT);
-  analogReference(EXTERNAL);
   Microphone microphone();
 }
  

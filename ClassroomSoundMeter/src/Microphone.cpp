@@ -2,51 +2,30 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
+#include <Arduino.h>
 
 /*
  Heavily borrowing from Adafruit's code at https://learn.adafruit.com/led-ampli-tie/the-code
 */
 
 Microphone::Microphone(){
-    
-    peak = 0;
+    analogReference(EXTERNAL); //tie AREF pin and mic power to 3.3V
+    peak = 16;
     dotCount = 0;
-    volCount = 0;
-    lvl = 10;
-    minLvlAvg = 0;
-    maxLvlAvg = 512; 
+    dotHangCount = 0;
+    sample = 0;
 }
 
 Microphone::~Microphone(){
 }
 
-/*
-
-#define N_PIXELS  16  // Number of pixels in strand
-#define MIC_PIN   A9  // Microphone is attached to this analog pin
-#define LED_PIN    6  // NeoPixel LED strand is connected to this pin
-#define SAMPLE_WINDOW   10  // Sample window for average level
-#define PEAK_HANG 24 //Time of pause before peak dot falls
-#define PEAK_FALL 4 //Rate of falling peak dot
-#define INPUT_FLOOR 10 //Lower range of analogRead input
-#define INPUT_CEILING 300 //Max range of analogRead input, the lower the value the more sensitive (1023 = max)
-#define METER_CEILING 3
-
-byte peak = 16;      // Peak level of column; used for falling dots
-unsigned int sample;
-
-byte dotCount = 0;  //Frame counter for peak dot
-byte dotHangCount = 0; //Frame counter for holding peak dot
-
-
-void loop() 
-{
+int Microphone::checkMic(){
   unsigned long startMillis= millis();  // Start of sample window
   float peakToPeak = 0;   // peak-to-peak level
 
   unsigned int signalMax = 0;
   unsigned int signalMin = 1023;
-  unsigned int c, y;
+  int c;
 
 
   // collect data for length of sample window (in mS)
@@ -73,9 +52,6 @@ void loop()
   //Scale the input logarithmically instead of linearly
   c = fscale(INPUT_FLOOR, INPUT_CEILING, METER_CEILING, 0, peakToPeak, 2);
 
-  
-
-
   if(c < peak) {
     peak = c;        // Keep dot on top
     dotHangCount = 0;    // make the dot hang before falling
@@ -92,8 +68,9 @@ void loop()
   else {
     dotHangCount++; 
   }
+  return 1;
 }
-*/
+
 
 float Microphone::fscale( float originalMin, float originalMax, float newBegin, float
 newEnd, float inputValue, float curve){

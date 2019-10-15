@@ -1,26 +1,25 @@
 // Controls MAX4466 breakout from Adafruit
-#define MIC_PIN   A0  // Microphone is attached to this analog pin
-#define DC_OFFSET  0  // DC offset in mic signal - if unusure, leave 0
-#define NOISE     10  // Noise/hum/interference in mic signal
-#define SAMPLES   60  // Length of buffer for dynamic level adjustment
-#define TOP       (N_PIXELS + 2) // Allow dot to go slightly off scale
-#define PEAK_FALL 40  // Rate of peak falling dot
-#define byte short
+#define MIC_PIN        A0  // Microphone is attached to this analog pin
+#define WARN_OUT_PIN   10  
+#define ALARM_OUT_PIN  11
+#define SAMPLE_WINDOW   10  // Sample window for average level
+#define PEAK_HANG 24 //Time of pause before peak dot falls
+#define PEAK_FALL 4 //Rate of falling peak dot
+#define INPUT_FLOOR 10 //Lower range of analogRead input
+#define INPUT_CEILING 300 //Max range of analogRead input, the lower the value the more sensitive (1023 = max)
+#define METER_CEILING 3
 
 class Microphone{
     public:
-        byte
-        peak,      // Used for falling dot
-        dotCount,      // Frame counter for delaying dot-falling speed
-        volCount;      // Frame counter for storing past volume data
-        int
-        vol[SAMPLES],       // Collection of prior volume samples
-        lvl,      // Current "dampened" audio level
-        minLvlAvg,      // For dynamic adjustment of graph low & high
-        maxLvlAvg;
+        short peak;      // Peak level of column; used for falling dots
+        unsigned int sample;
+
+        short dotCount;  //Frame counter for peak dot
+        short dotHangCount; //Frame counter for holding peak dot
 
         Microphone();
 	    virtual ~Microphone();
+        int checkMic();
     private: 
         float fscale( float originalMin, float originalMax, float newBegin, float
         newEnd, float inputValue, float curve);
